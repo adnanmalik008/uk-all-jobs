@@ -186,13 +186,13 @@ export default function Hero() {
           {/* Stats */}
           <div className="mt-20 grid grid-cols-2 md:grid-cols-4 gap-8">
             {[
-              { value: '10K+', label: 'Active Jobs' },
-              { value: '5K+', label: 'Companies' },
-              { value: '50K+', label: 'Job Seekers' },
-              { value: '95%', label: 'Success Rate' },
+              { value: '10K+', label: 'Active Jobs', gradient: true },
+              { value: '5K+', label: 'Companies', gradient: false },
+              { value: '50K+', label: 'Job Seekers', gradient: true },
+              { value: '95%', label: 'Success Rate', gradient: false },
             ].map((stat) => (
               <div key={stat.label} className="text-center group">
-                <div className="text-3xl md:text-4xl font-bold font-heading bg-gradient-to-r from-brand-300 via-brand-400 to-brand-500 bg-clip-text text-transparent group-hover:scale-105 transition-transform drop-shadow-lg">
+                <div className={`text-3xl md:text-4xl font-bold font-heading group-hover:scale-105 transition-transform drop-shadow-lg ${stat.gradient ? 'bg-gradient-to-r from-brand-300 via-brand-400 to-brand-500 bg-clip-text text-transparent' : 'text-white'}`}>
                   {stat.value}
                 </div>
                 <div className="text-white/60 text-sm mt-1">{stat.label}</div>

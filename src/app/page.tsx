@@ -1,5 +1,6 @@
 import Link from 'next/link';
 import Hero from '@/components/home/Hero';
+import CompanyLogos from '@/components/home/CompanyLogos';
 import QuickFilters from '@/components/home/QuickFilters';
 import JobCardCompact from '@/components/jobs/JobCardCompact';
 import prisma from '@/lib/db';
@@ -99,6 +100,9 @@ export default async function Home() {
     <>
       {/* Hero Section */}
       <Hero />
+
+      {/* Company Logos Carousel */}
+      <CompanyLogos />
 
       {/* Main Content */}
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">

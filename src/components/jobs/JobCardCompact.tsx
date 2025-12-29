@@ -21,7 +21,7 @@ interface JobCardCompactProps {
 export default function JobCardCompact({ job, featured = false }: JobCardCompactProps) {
   return (
     <Link href={`/jobs/${job.slug}`} className="block group h-full">
-      <article className={`h-full bg-white dark:bg-dark-900/60 backdrop-blur-sm rounded-xl border ${featured ? 'border-accent-red/30 ring-1 ring-accent-red/20' : 'border-dark-200 dark:border-dark-700'} p-5 transition-all duration-300 hover:border-brand-500/50 hover:shadow-lg hover:shadow-brand-500/10 flex flex-col`}>
+      <article className={`h-full bg-white dark:bg-dark-900/60 backdrop-blur-sm rounded-xl border ${featured ? 'border-brand-500/40 ring-1 ring-brand-500/20' : 'border-dark-200 dark:border-dark-700'} p-5 transition-all duration-300 hover:border-brand-500/50 hover:shadow-lg hover:shadow-brand-500/10 flex flex-col`}>
         {/* Header with logo and company */}
         <div className="flex items-start gap-3 mb-3">
           <div className="flex-shrink-0 w-10 h-10 bg-dark-100 dark:bg-dark-800 rounded-lg flex items-center justify-center border border-dark-200 dark:border-dark-700">
@@ -42,7 +42,7 @@ export default function JobCardCompact({ job, featured = false }: JobCardCompact
             <p className="text-xs text-dark-400 dark:text-dark-500">{formatDate(job.createdAt)}</p>
           </div>
           {featured && (
-            <span className="badge badge-red text-[10px] px-2 py-0.5">Featured</span>
+            <span className="badge badge-blue text-[10px] px-2 py-0.5">Featured</span>
           )}
         </div>
 
