@@ -1,26 +1,26 @@
 import Link from 'next/link';
 import Hero from '@/components/home/Hero';
 import QuickFilters from '@/components/home/QuickFilters';
-import JobCard from '@/components/jobs/JobCard';
+import JobCardCompact from '@/components/jobs/JobCardCompact';
 import prisma from '@/lib/db';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { 
-  faLaptopCode, 
-  faHeartPulse, 
-  faCoins, 
-  faChartLine, 
-  faGraduationCap, 
-  faCogs 
+import {
+  faLaptopCode,
+  faHeartPulse,
+  faCoins,
+  faChartLine,
+  faGraduationCap,
+  faCogs
 } from '@fortawesome/free-solid-svg-icons';
 
 // Categories with FontAwesome icons
 const categories = [
-  { name: 'Technology', slug: 'technology', icon: faLaptopCode, count: 0 },
-  { name: 'Healthcare', slug: 'healthcare', icon: faHeartPulse, count: 0 },
-  { name: 'Finance', slug: 'finance', icon: faCoins, count: 0 },
-  { name: 'Marketing', slug: 'marketing', icon: faChartLine, count: 0 },
-  { name: 'Education', slug: 'education', icon: faGraduationCap, count: 0 },
-  { name: 'Engineering', slug: 'engineering', icon: faCogs, count: 0 },
+  { name: 'Technology', slug: 'technology', icon: faLaptopCode },
+  { name: 'Healthcare', slug: 'healthcare', icon: faHeartPulse },
+  { name: 'Finance', slug: 'finance', icon: faCoins },
+  { name: 'Marketing', slug: 'marketing', icon: faChartLine },
+  { name: 'Education', slug: 'education', icon: faGraduationCap },
+  { name: 'Engineering', slug: 'engineering', icon: faCogs },
 ];
 
 // Sample locations for the homepage
@@ -38,7 +38,7 @@ async function getLatestJobs() {
     const jobs = await prisma.job.findMany({
       where: { isActive: true },
       orderBy: { createdAt: 'desc' },
-      take: 6,
+      take: 9,
     });
     return jobs;
   } catch {
@@ -59,10 +59,40 @@ async function getFeaturedJobs() {
   }
 }
 
+async function getCategoryCounts() {
+  try {
+    const counts = await prisma.category.findMany({
+      select: { slug: true, jobCount: true }
+    });
+    return counts.reduce((acc, cat) => {
+      acc[cat.slug] = cat.jobCount;
+      return acc;
+    }, {} as Record<string, number>);
+  } catch {
+    return {};
+  }
+}
+
+async function getLocationCounts() {
+  try {
+    const counts = await prisma.location.findMany({
+      select: { slug: true, jobCount: true }
+    });
+    return counts.reduce((acc, loc) => {
+      acc[loc.slug] = loc.jobCount;
+      return acc;
+    }, {} as Record<string, number>);
+  } catch {
+    return {};
+  }
+}
+
 export default async function Home() {
-  const [latestJobs, featuredJobs] = await Promise.all([
+  const [latestJobs, featuredJobs, categoryCounts, locationCounts] = await Promise.all([
     getLatestJobs(),
     getFeaturedJobs(),
+    getCategoryCounts(),
+    getLocationCounts(),
   ]);
 
   return (
@@ -70,48 +100,131 @@ export default async function Home() {
       {/* Hero Section */}
       <Hero />
 
-      {/* Quick Filters */}
-      <QuickFilters />
-
       {/* Main Content */}
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-12">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-16">
+
         {/* Featured Jobs Section */}
         {featuredJobs.length > 0 && (
-          <section className="mb-12">
+          <section className="mb-16">
             <div className="flex items-center justify-between mb-6">
-              <h2 className="text-2xl font-bold text-dark-900 dark:text-dark-50">Featured Jobs</h2>
+              <div>
+                <h2 className="text-2xl font-bold text-dark-900 dark:text-dark-50">Featured Jobs</h2>
+                <p className="text-dark-500 dark:text-dark-400 text-sm mt-1">Hand-picked opportunities from top employers</p>
+              </div>
               <Link
                 href="/jobs?featured=true"
-                className="text-brand-500 dark:text-brand-400 hover:text-brand-600 dark:hover:text-brand-300 text-sm font-medium"
+                className="text-brand-600 dark:text-brand-400 hover:text-brand-700 dark:hover:text-brand-300 text-sm font-medium"
               >
                 View all →
               </Link>
             </div>
-            <div className="grid gap-4">
+            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {featuredJobs.map((job) => (
-                <JobCard key={job.id} job={job} />
+                <JobCardCompact key={job.id} job={job} featured />
               ))}
             </div>
           </section>
         )}
 
-        {/* Latest Jobs Section */}
-        <section className="mb-12">
-          <div className="flex items-center justify-between mb-6">
-            <h2 className="text-2xl font-bold text-dark-900 dark:text-dark-50">Latest Jobs</h2>
-            <Link
-              href="/jobs"
-              className="text-brand-500 dark:text-brand-400 hover:text-brand-600 dark:hover:text-brand-300 text-sm font-medium"
-            >
-              View all jobs →
-            </Link>
-          </div>
-          {latestJobs.length > 0 ? (
-            <div className="grid gap-4">
-              {latestJobs.map((job) => (
-                <JobCard key={job.id} job={job} />
-              ))}
+        {/* Browse by Category & Location */}
+        <section className="mb-16">
+          <div className="grid lg:grid-cols-2 gap-8">
+            {/* Categories */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-dark-900 dark:text-dark-50">Browse by Category</h2>
+                <Link href="/jobs" className="text-brand-600 dark:text-brand-400 text-sm font-medium hover:underline">
+                  All categories →
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {categories.map((category) => (
+                  <Link
+                    key={category.slug}
+                    href={`/jobs/category/${category.slug}`}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-dark-900/60 border border-dark-200 dark:border-dark-700 hover:border-brand-500/50 hover:shadow-md transition-all group"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-brand-600/10 dark:bg-brand-500/20 flex items-center justify-center flex-shrink-0">
+                      <FontAwesomeIcon icon={category.icon} className="w-4 h-4 text-brand-600 dark:text-brand-400" />
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-medium text-dark-900 dark:text-dark-50 text-sm truncate group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                        {category.name}
+                      </p>
+                      <p className="text-xs text-dark-500 dark:text-dark-400">
+                        {categoryCounts[category.slug] || 0} jobs
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
             </div>
+
+            {/* Locations */}
+            <div>
+              <div className="flex items-center justify-between mb-4">
+                <h2 className="text-xl font-bold text-dark-900 dark:text-dark-50">Top Locations</h2>
+                <Link href="/jobs" className="text-brand-600 dark:text-brand-400 text-sm font-medium hover:underline">
+                  All locations →
+                </Link>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
+                {locations.map((location) => (
+                  <Link
+                    key={location.slug}
+                    href={`/jobs/location/${location.slug}`}
+                    className="flex items-center gap-3 p-3 rounded-xl bg-white dark:bg-dark-900/60 border border-dark-200 dark:border-dark-700 hover:border-brand-500/50 hover:shadow-md transition-all group"
+                  >
+                    <div className="w-9 h-9 rounded-lg bg-dark-100 dark:bg-dark-800 flex items-center justify-center flex-shrink-0">
+                      <svg className="w-4 h-4 text-dark-500 dark:text-dark-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                    </div>
+                    <div className="min-w-0">
+                      <p className="font-medium text-dark-900 dark:text-dark-50 text-sm truncate group-hover:text-brand-600 dark:group-hover:text-brand-400 transition-colors">
+                        {location.name}
+                      </p>
+                      <p className="text-xs text-dark-500 dark:text-dark-400">
+                        {locationCounts[location.slug] || 0} jobs
+                      </p>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* Latest Jobs Section */}
+        <section>
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-6">
+            <div>
+              <h2 className="text-2xl font-bold text-dark-900 dark:text-dark-50">Latest Jobs</h2>
+              <p className="text-dark-500 dark:text-dark-400 text-sm mt-1">Recently posted opportunities</p>
+            </div>
+            <QuickFilters />
+          </div>
+
+          {latestJobs.length > 0 ? (
+            <>
+              <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                {latestJobs.map((job) => (
+                  <JobCardCompact key={job.id} job={job} />
+                ))}
+              </div>
+              <div className="text-center mt-8">
+                <Link
+                  href="/jobs"
+                  className="btn-primary inline-flex items-center gap-2"
+                >
+                  View All Jobs
+                  <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </Link>
+              </div>
+            </>
           ) : (
             <div className="text-center py-12 bg-dark-50 dark:bg-dark-900/60 rounded-xl border border-dark-200 dark:border-dark-700">
               <svg
@@ -136,72 +249,6 @@ export default async function Home() {
             </div>
           )}
         </section>
-
-        {/* Categories & Locations Grid */}
-        <div className="grid md:grid-cols-2 gap-8">
-          {/* Popular Categories */}
-          <section>
-            <h2 className="text-2xl font-bold text-dark-900 dark:text-dark-50 mb-6">
-              Popular Categories
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
-              {categories.map((category) => (
-                <Link
-                  key={category.slug}
-                  href={"/jobs/category/" + category.slug}
-                  className="bg-white dark:bg-dark-900/60 backdrop-blur-sm rounded-2xl border border-dark-200 dark:border-dark-700 p-6 transition-all duration-300 hover:border-brand-500/50 hover:shadow-lg hover:shadow-brand-500/10 flex items-center gap-3"
-                >
-                  <div className="w-10 h-10 rounded-lg bg-brand-500/20 flex items-center justify-center">
-                    <FontAwesomeIcon icon={category.icon} className="w-5 h-5 text-brand-500 dark:text-brand-400" />
-                  </div>
-                  <div>
-                    <h3 className="font-medium text-dark-900 dark:text-dark-50">{category.name}</h3>
-                    <p className="text-sm text-dark-500 dark:text-dark-400">
-                      {category.count} jobs
-                    </p>
-                  </div>
-                </Link>
-              ))}
-            </div>
-          </section>
-
-          {/* Popular Locations */}
-          <section>
-            <h2 className="text-2xl font-bold text-dark-900 dark:text-dark-50 mb-6">
-              Top Locations
-            </h2>
-            <div className="grid grid-cols-2 gap-4">
-              {locations.map((location) => (
-                <Link
-                  key={location.slug}
-                  href={"/jobs/location/" + location.slug}
-                  className="bg-white dark:bg-dark-900/60 backdrop-blur-sm rounded-2xl border border-dark-200 dark:border-dark-700 p-6 transition-all duration-300 hover:border-brand-500/50 hover:shadow-lg hover:shadow-brand-500/10 flex items-center gap-3"
-                >
-                  <svg
-                    className="w-6 h-6 text-brand-500 dark:text-brand-400"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
-                    />
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={2}
-                      d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
-                    />
-                  </svg>
-                  <span className="font-medium text-dark-900 dark:text-dark-50">{location.name}</span>
-                </Link>
-              ))}
-            </div>
-          </section>
-        </div>
       </div>
     </>
   );
