@@ -2,26 +2,232 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@media (prefers-color-scheme: dark) {
+@layer base {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #ffffff;
+    --foreground: #09090b;
+    --card-bg: #ffffff;
+    --card-border: #e4e4e7;
+    --muted: #71717a;
+    --muted-foreground: #52525b;
+  }
+
+  .dark {
+    --background: #000000;
+    --foreground: #fafafa;
+    --card-bg: #0a0f1a;
+    --card-border: #1e2433;
+    --muted: #9ca3af;
+    --muted-foreground: #6b7280;
+  }
+
+  body {
+    @apply bg-white dark:bg-black text-dark-900 dark:text-dark-100 transition-colors duration-300;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  /* Apply heading font to all headings */
+  h1, h2, h3, h4, h5, h6 {
+    font-family: var(--font-unbounded), system-ui, sans-serif;
+  }
+
+  *:focus-visible {
+    @apply outline-none ring-2 ring-brand-400 ring-offset-2 ring-offset-black dark:ring-offset-black;
+  }
+
+  ::selection {
+    @apply bg-brand-500/30 text-white;
   }
 }
 
-body {
-  color: var(--foreground);
-  background: var(--background);
-  font-family: Arial, Helvetica, sans-serif;
+@layer components {
+  .container-custom {
+    @apply mx-auto max-w-7xl px-4 sm:px-6 lg:px-8;
+  }
+
+  /* Font heading utility */
+  .font-heading {
+    font-family: var(--font-unbounded), system-ui, sans-serif;
+  }
+
+  /* Gradient text */
+  .gradient-text {
+    @apply bg-gradient-to-r from-brand-300 via-brand-400 to-accent-cyan bg-clip-text text-transparent;
+  }
+
+  .gradient-text-cyan {
+    @apply bg-gradient-to-r from-accent-cyan via-brand-400 to-accent-sky bg-clip-text text-transparent;
+  }
+
+  /* Button styles */
+  .btn-primary {
+    @apply relative bg-gradient-to-r from-brand-500 to-brand-600 text-white px-6 py-3 rounded-xl font-medium
+           hover:from-brand-400 hover:to-brand-500 transition-all duration-300
+           shadow-lg shadow-brand-500/25 hover:shadow-xl hover:shadow-brand-500/30
+           hover:-translate-y-0.5;
+  }
+
+  .btn-secondary {
+    @apply bg-dark-800/50 text-dark-100 px-6 py-3 rounded-xl font-medium
+           border border-dark-700 hover:border-dark-600 hover:bg-dark-800
+           transition-all duration-300 backdrop-blur-sm;
+  }
+
+  .btn-outline {
+    @apply border border-dark-600 text-dark-200 px-6 py-3 rounded-xl font-medium
+           hover:border-brand-400 hover:text-brand-400 transition-all duration-300
+           bg-transparent hover:bg-brand-400/5;
+  }
+
+  .btn-glow {
+    @apply relative bg-gradient-to-r from-brand-500 to-brand-600 text-white px-6 py-3 rounded-xl font-medium
+           transition-all duration-300 hover:-translate-y-0.5
+           before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-brand-500 before:to-brand-600
+           before:blur-xl before:opacity-50 before:-z-10 hover:before:opacity-75;
+  }
+
+  /* Card styles */
+  .card {
+    @apply bg-white dark:bg-dark-900/60 backdrop-blur-sm rounded-2xl border border-dark-200 dark:border-dark-700 p-6
+           transition-all duration-300 hover:border-dark-300 dark:hover:border-dark-600 hover:bg-dark-50 dark:hover:bg-dark-900/80;
+  }
+
+  .card-glow {
+    @apply bg-white dark:bg-dark-900/60 backdrop-blur-sm rounded-2xl border border-dark-200 dark:border-dark-700 p-6
+           transition-all duration-300 hover:border-brand-500/50
+           hover:shadow-lg hover:shadow-brand-500/10;
+  }
+
+  .glass {
+    @apply bg-white/80 dark:bg-dark-900/40 backdrop-blur-xl border border-dark-200/50 dark:border-dark-700/50;
+  }
+
+  /* Badge styles */
+  .badge {
+    @apply inline-flex items-center px-3 py-1 rounded-full text-xs font-medium;
+  }
+
+  .badge-blue {
+    @apply bg-brand-500/20 text-brand-300 border border-brand-500/30;
+  }
+
+  .badge-green {
+    @apply bg-green-500/20 text-green-300 border border-green-500/30;
+  }
+
+  .badge-purple {
+    @apply bg-accent-blue/20 text-blue-300 border border-accent-blue/30;
+  }
+
+  .badge-yellow {
+    @apply bg-yellow-500/20 text-yellow-300 border border-yellow-500/30;
+  }
+
+  .badge-pink {
+    @apply bg-accent-sky/20 text-sky-300 border border-accent-sky/30;
+  }
+
+  .badge-gray {
+    @apply bg-dark-700/50 text-dark-300 border border-dark-600;
+  }
+
+  .badge-cyan {
+    @apply bg-accent-cyan/20 text-cyan-300 border border-accent-cyan/30;
+  }
+
+  /* Input styles */
+  .input {
+    @apply w-full px-4 py-3 rounded-xl bg-dark-50 dark:bg-dark-900/50 border border-dark-200 dark:border-dark-700
+           text-dark-900 dark:text-dark-100 placeholder-dark-400 dark:placeholder-dark-500
+           focus:border-brand-500 focus:ring-1 focus:ring-brand-500
+           outline-none transition-all duration-300;
+  }
+
+  .input-lg {
+    @apply w-full px-5 py-4 rounded-xl bg-dark-50 dark:bg-dark-900/50 border border-dark-200 dark:border-dark-700
+           text-dark-900 dark:text-dark-100 placeholder-dark-400 dark:placeholder-dark-500 text-lg
+           focus:border-brand-500 focus:ring-1 focus:ring-brand-500
+           outline-none transition-all duration-300;
+  }
+
+  /* Section styles */
+  .section-heading {
+    @apply text-3xl md:text-4xl font-bold text-dark-900 dark:text-dark-50 font-heading;
+  }
+
+  .section-subheading {
+    @apply text-lg text-dark-600 dark:text-dark-400 max-w-2xl;
+  }
+
+  /* Glow effects */
+  .glow-border {
+    @apply relative;
+  }
+
+  .glow-border::before {
+    content: '';
+    @apply absolute -inset-px bg-gradient-to-r from-brand-500 via-accent-cyan to-brand-400 rounded-2xl opacity-0
+           transition-opacity duration-300 -z-10 blur-sm;
+  }
+
+  .glow-border:hover::before {
+    @apply opacity-100;
+  }
+
+  /* Grid pattern background - for hero with image */
+  .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.06) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.06) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .dark .bg-grid {
+    background-image:
+      linear-gradient(to right, rgba(255,255,255,0.04) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255,255,255,0.04) 1px, transparent 1px);
+  }
+
+  /* Grid pattern for content areas */
+  .bg-grid-subtle {
+    background-image:
+      linear-gradient(to right, rgba(0,0,0,0.02) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(0,0,0,0.02) 1px, transparent 1px);
+    background-size: 60px 60px;
+  }
+
+  .dark .bg-grid-subtle {
+    background-image:
+      linear-gradient(to right, rgba(30,36,51,0.4) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(30,36,51,0.4) 1px, transparent 1px);
+  }
+
+  /* Gradient orbs for background */
+  .gradient-orb {
+    @apply absolute rounded-full blur-3xl opacity-20;
+  }
 }
 
 @layer utilities {
   .text-balance {
     text-wrap: balance;
+  }
+
+  .animate-in {
+    animation: fadeIn 0.5s ease-out forwards;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

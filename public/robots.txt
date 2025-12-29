@@ -1,0 +1,12 @@
+# *
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /dashboard/
+Disallow: /api/
+
+# Host
+Host: https://ukalljobs.com
+
+# Sitemaps
+Sitemap: https://ukalljobs.com/sitemap.xml

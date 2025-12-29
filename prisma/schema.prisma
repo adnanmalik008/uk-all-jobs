@@ -1,0 +1,89 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String     @id @default(cuid())
+  email     String     @unique
+  password  String
+  name      String?
+  role      String     @default("USER") // USER, ADMIN
+  savedJobs SavedJob[]
+  jobAlerts JobAlert[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+model Job {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  title       String
+  company     String
+  companyLogo String?
+  description String
+  location    String
+  locSlug     String
+  category    String
+  catSlug     String
+  jobType     String     // FULL_TIME, PART_TIME, CONTRACT, TEMPORARY, INTERNSHIP
+  workMode    String     // ONSITE, REMOTE, HYBRID
+  salary      String?
+  applyUrl    String
+  isActive    Boolean    @default(true)
+  isFeatured  Boolean    @default(false)
+  savedBy     SavedJob[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+
+  @@index([locSlug])
+  @@index([catSlug])
+  @@index([jobType])
+  @@index([workMode])
+  @@index([isActive])
+}
+
+model Category {
+  id       String @id @default(cuid())
+  name     String @unique
+  slug     String @unique
+  icon     String?
+  jobCount Int    @default(0)
+}
+
+model Location {
+  id       String @id @default(cuid())
+  name     String @unique
+  slug     String @unique
+  jobCount Int    @default(0)
+}
+
+model SavedJob {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  job       Job      @relation(fields: [jobId], references: [id], onDelete: Cascade)
+  jobId     String
+  createdAt DateTime @default(now())
+
+  @@unique([userId, jobId])
+}
+
+model JobAlert {
+  id        String   @id @default(cuid())
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  userId    String
+  keyword   String?
+  location  String?
+  category  String?
+  jobType   String?  // FULL_TIME, PART_TIME, CONTRACT, TEMPORARY, INTERNSHIP
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+}
