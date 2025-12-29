@@ -35,11 +35,11 @@
   }
 
   *:focus-visible {
-    @apply outline-none ring-2 ring-brand-400 ring-offset-2 ring-offset-black dark:ring-offset-black;
+    @apply outline-none ring-2 ring-brand-600 ring-offset-2 ring-offset-white dark:ring-offset-black;
   }
 
   ::selection {
-    @apply bg-brand-500/30 text-white;
+    @apply bg-brand-600/30 text-white;
   }
 }
 
@@ -53,20 +53,28 @@
     font-family: var(--font-unbounded), system-ui, sans-serif;
   }
 
-  /* Gradient text */
+  /* Gradient text - UK Blue */
   .gradient-text {
-    @apply bg-gradient-to-r from-brand-300 via-brand-400 to-accent-cyan bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-brand-300 via-brand-400 to-brand-500 bg-clip-text text-transparent;
   }
 
-  .gradient-text-cyan {
-    @apply bg-gradient-to-r from-accent-cyan via-brand-400 to-accent-sky bg-clip-text text-transparent;
+  .gradient-text-blue {
+    @apply bg-gradient-to-r from-brand-400 via-brand-500 to-brand-600 bg-clip-text text-transparent;
   }
 
-  /* Button styles */
+  /* Button styles - UK Red for primary CTAs */
   .btn-primary {
-    @apply relative bg-gradient-to-r from-brand-500 to-brand-600 text-white px-6 py-3 rounded-xl font-medium
-           hover:from-brand-400 hover:to-brand-500 transition-all duration-300
-           shadow-lg shadow-brand-500/25 hover:shadow-xl hover:shadow-brand-500/30
+    @apply relative bg-accent-red text-white px-6 py-3 rounded-xl font-medium
+           hover:bg-accent-redLight transition-all duration-300
+           shadow-lg shadow-accent-red/25 hover:shadow-xl hover:shadow-accent-red/30
+           hover:-translate-y-0.5;
+  }
+
+  /* Blue button variant */
+  .btn-blue {
+    @apply relative bg-brand-600 text-white px-6 py-3 rounded-xl font-medium
+           hover:bg-brand-500 transition-all duration-300
+           shadow-lg shadow-brand-600/25 hover:shadow-xl hover:shadow-brand-600/30
            hover:-translate-y-0.5;
   }
 
@@ -77,15 +85,15 @@
   }
 
   .btn-outline {
-    @apply border border-dark-600 text-dark-200 px-6 py-3 rounded-xl font-medium
-           hover:border-brand-400 hover:text-brand-400 transition-all duration-300
-           bg-transparent hover:bg-brand-400/5;
+    @apply border border-dark-600 text-dark-600 dark:text-dark-200 px-6 py-3 rounded-xl font-medium
+           hover:border-brand-600 hover:text-brand-600 transition-all duration-300
+           bg-transparent hover:bg-brand-600/5;
   }
 
   .btn-glow {
-    @apply relative bg-gradient-to-r from-brand-500 to-brand-600 text-white px-6 py-3 rounded-xl font-medium
+    @apply relative bg-accent-red text-white px-6 py-3 rounded-xl font-medium
            transition-all duration-300 hover:-translate-y-0.5
-           before:absolute before:inset-0 before:rounded-xl before:bg-gradient-to-r before:from-brand-500 before:to-brand-600
+           before:absolute before:inset-0 before:rounded-xl before:bg-accent-red
            before:blur-xl before:opacity-50 before:-z-10 hover:before:opacity-75;
   }
 
@@ -111,31 +119,36 @@
   }
 
   .badge-blue {
-    @apply bg-brand-500/20 text-brand-300 border border-brand-500/30;
+    @apply bg-brand-600/20 text-brand-400 dark:text-brand-300 border border-brand-600/30;
   }
 
   .badge-green {
-    @apply bg-green-500/20 text-green-300 border border-green-500/30;
+    @apply bg-green-500/20 text-green-600 dark:text-green-300 border border-green-500/30;
   }
 
   .badge-purple {
-    @apply bg-accent-blue/20 text-blue-300 border border-accent-blue/30;
+    @apply bg-accent-blue/20 text-blue-600 dark:text-blue-300 border border-accent-blue/30;
   }
 
   .badge-yellow {
-    @apply bg-yellow-500/20 text-yellow-300 border border-yellow-500/30;
+    @apply bg-yellow-500/20 text-yellow-600 dark:text-yellow-300 border border-yellow-500/30;
   }
 
   .badge-pink {
-    @apply bg-accent-sky/20 text-sky-300 border border-accent-sky/30;
+    @apply bg-pink-500/20 text-pink-600 dark:text-pink-300 border border-pink-500/30;
   }
 
   .badge-gray {
-    @apply bg-dark-700/50 text-dark-300 border border-dark-600;
+    @apply bg-dark-200 dark:bg-dark-700/50 text-dark-600 dark:text-dark-300 border border-dark-300 dark:border-dark-600;
+  }
+
+  /* UK Red badge for "New", "Hot", "Urgent" */
+  .badge-red {
+    @apply bg-accent-red/20 text-accent-red border border-accent-red/30;
   }
 
   .badge-cyan {
-    @apply bg-accent-cyan/20 text-cyan-300 border border-accent-cyan/30;
+    @apply bg-cyan-500/20 text-cyan-600 dark:text-cyan-300 border border-cyan-500/30;
   }
 
   /* Input styles */
@@ -169,7 +182,7 @@
 
   .glow-border::before {
     content: '';
-    @apply absolute -inset-px bg-gradient-to-r from-brand-500 via-accent-cyan to-brand-400 rounded-2xl opacity-0
+    @apply absolute -inset-px bg-gradient-to-r from-brand-500 via-brand-600 to-brand-400 rounded-2xl opacity-0
            transition-opacity duration-300 -z-10 blur-sm;
   }
 

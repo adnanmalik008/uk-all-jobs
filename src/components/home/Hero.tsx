@@ -46,9 +46,9 @@ export default function Hero() {
       {/* Subtle noise texture overlay */}
       <div className="absolute inset-0 opacity-[0.03] dark:opacity-[0.02]" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=\'0 0 256 256\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cfilter id=\'noise\'%3E%3CfeTurbulence type=\'fractalNoise\' baseFrequency=\'0.9\' numOctaves=\'4\' stitchTiles=\'stitch\'/%3E%3C/filter%3E%3Crect width=\'100%25\' height=\'100%25\' filter=\'url(%23noise)\'/%3E%3C/svg%3E")' }} />
 
-      {/* Horizontal accent lines */}
-      <div className="absolute top-1/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-400/40 to-transparent" />
-      <div className="absolute top-3/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-400/20 to-transparent" />
+      {/* Horizontal accent lines - UK Blue */}
+      <div className="absolute top-1/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-600/40 to-transparent" />
+      <div className="absolute top-3/4 left-0 right-0 h-px bg-gradient-to-r from-transparent via-brand-600/20 to-transparent" />
 
       {/* Corner accents */}
       <div className="absolute top-0 left-0 w-32 h-32 border-l border-t border-white/10" />
@@ -56,11 +56,11 @@ export default function Hero() {
       <div className="absolute bottom-0 left-0 w-32 h-32 border-l border-b border-white/10" />
       <div className="absolute bottom-0 right-0 w-32 h-32 border-r border-b border-white/10" />
 
-      {/* Subtle glow effect */}
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-brand-500/15 rounded-full blur-[150px]" />
+      {/* Subtle glow effect - UK Blue */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[600px] bg-brand-600/20 rounded-full blur-[150px]" />
 
-      {/* Additional accent glow */}
-      <div className="absolute top-1/4 right-1/4 w-[500px] h-[400px] bg-accent-cyan/10 rounded-full blur-[120px]" />
+      {/* Additional accent glow - subtle red hint */}
+      <div className="absolute top-1/4 right-1/4 w-[500px] h-[400px] bg-brand-400/10 rounded-full blur-[120px]" />
 
       <div className="relative mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 py-20 md:py-32 w-full">
         <div className="text-center max-w-4xl mx-auto">
@@ -76,7 +76,7 @@ export default function Hero() {
           {/* Headline */}
           <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold mb-6 leading-tight font-heading tracking-tight">
             <span className="text-white drop-shadow-lg">Find Your </span>
-            <span className="bg-gradient-to-r from-brand-300 via-brand-400 to-accent-cyan bg-clip-text text-transparent drop-shadow-lg">Dream Job</span>
+            <span className="bg-gradient-to-r from-brand-300 via-brand-400 to-brand-500 bg-clip-text text-transparent drop-shadow-lg">Dream Job</span>
             <br />
             <span className="text-white drop-shadow-lg">in the UK</span>
           </h1>
@@ -91,7 +91,7 @@ export default function Hero() {
             <div className="bg-white/10 backdrop-blur-xl border border-white/20 rounded-2xl p-2 flex flex-col md:flex-row gap-2 shadow-2xl shadow-black/30">
               <div className="flex-1 relative group">
                 <svg
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50 group-focus-within:text-brand-400 transition-colors"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50 group-focus-within:text-brand-300 transition-colors"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -113,7 +113,7 @@ export default function Hero() {
               </div>
               <div className="flex-1 relative group">
                 <svg
-                  className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50 group-focus-within:text-brand-400 transition-colors"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-white/50 group-focus-within:text-brand-300 transition-colors"
                   fill="none"
                   stroke="currentColor"
                   viewBox="0 0 24 24"
@@ -176,7 +176,7 @@ export default function Hero() {
                     router.push(`/jobs?q=${term}`);
                   }
                 }}
-                className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 hover:text-brand-300 hover:border-brand-400/50 hover:bg-white/15 transition-all"
+                className="px-3 py-1 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 text-white/80 hover:text-brand-300 hover:border-brand-500/50 hover:bg-white/15 transition-all"
               >
                 {term}
               </button>
@@ -192,7 +192,7 @@ export default function Hero() {
               { value: '95%', label: 'Success Rate' },
             ].map((stat) => (
               <div key={stat.label} className="text-center group">
-                <div className="text-3xl md:text-4xl font-bold font-heading bg-gradient-to-r from-brand-300 via-accent-cyan to-brand-400 bg-clip-text text-transparent group-hover:scale-105 transition-transform drop-shadow-lg">
+                <div className="text-3xl md:text-4xl font-bold font-heading bg-gradient-to-r from-brand-300 via-brand-400 to-brand-500 bg-clip-text text-transparent group-hover:scale-105 transition-transform drop-shadow-lg">
                   {stat.value}
                 </div>
                 <div className="text-white/60 text-sm mt-1">{stat.label}</div>
