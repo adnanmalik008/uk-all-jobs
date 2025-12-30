@@ -1,15 +1,17 @@
+import Image from "next/image";
+
 // Trusted by top UK companies - grayed out logos carousel
 const companies = [
-  { name: 'BBC', logo: 'BBC' },
-  { name: 'HSBC', logo: 'HSBC' },
-  { name: 'Tesco', logo: 'Tesco' },
-  { name: 'Barclays', logo: 'Barclays' },
-  { name: 'Unilever', logo: 'Unilever' },
-  { name: 'BP', logo: 'BP' },
-  { name: 'GSK', logo: 'GSK' },
-  { name: 'Rolls-Royce', logo: 'Rolls-Royce' },
-  { name: 'BT', logo: 'BT' },
-  { name: 'Vodafone', logo: 'Vodafone' },
+  { name: 'BBC', slug: 'bbc' },
+  { name: 'HSBC', slug: 'hsbc' },
+  { name: 'Tesco', slug: 'tesco' },
+  { name: 'Barclays', slug: 'barclays' },
+  { name: 'Unilever', slug: 'unilever' },
+  { name: 'BP', slug: 'bp' },
+  { name: 'GSK', slug: 'gsk' },
+  { name: 'Rolls-Royce', slug: 'rolls-royce' },
+  { name: 'BT', slug: 'bt' },
+  { name: 'Vodafone', slug: 'vodafone' },
 ];
 
 export default function CompanyLogos() {
@@ -32,22 +34,30 @@ export default function CompanyLogos() {
             {companies.map((company) => (
               <div
                 key={company.name}
-                className="flex-shrink-0 mx-8 flex items-center justify-center"
+                className="flex-shrink-0 mx-8 flex items-center justify-center h-10"
               >
-                <span className="text-xl md:text-2xl font-bold text-dark-300 dark:text-dark-600 opacity-60 hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                  {company.logo}
-                </span>
+                <Image
+                  src={`/images/companies/${company.slug}.svg`}
+                  alt={company.name}
+                  width={100}
+                  height={32}
+                  className="h-8 w-auto opacity-40 hover:opacity-70 transition-opacity duration-300 dark:invert"
+                />
               </div>
             ))}
             {/* Duplicate for seamless loop */}
             {companies.map((company) => (
               <div
                 key={`${company.name}-dup`}
-                className="flex-shrink-0 mx-8 flex items-center justify-center"
+                className="flex-shrink-0 mx-8 flex items-center justify-center h-10"
               >
-                <span className="text-xl md:text-2xl font-bold text-dark-300 dark:text-dark-600 opacity-60 hover:opacity-100 transition-opacity duration-300 whitespace-nowrap">
-                  {company.logo}
-                </span>
+                <Image
+                  src={`/images/companies/${company.slug}.svg`}
+                  alt={company.name}
+                  width={100}
+                  height={32}
+                  className="h-8 w-auto opacity-40 hover:opacity-70 transition-opacity duration-300 dark:invert"
+                />
               </div>
             ))}
           </div>

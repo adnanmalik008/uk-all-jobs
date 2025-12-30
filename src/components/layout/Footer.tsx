@@ -40,6 +40,7 @@ export default function Footer() {
               <li><Link href="/jobs" className="text-sm text-dark-600 dark:text-dark-400 hover:text-brand-500 dark:hover:text-brand-400 transition-colors">Browse Jobs</Link></li>
               <li><Link href="/about" className="text-sm text-dark-600 dark:text-dark-400 hover:text-brand-500 dark:hover:text-brand-400 transition-colors">About Us</Link></li>
               <li><Link href="/contact" className="text-sm text-dark-600 dark:text-dark-400 hover:text-brand-500 dark:hover:text-brand-400 transition-colors">Contact Us</Link></li>
+              <li><Link href="/developer-guide" className="text-sm text-dark-600 dark:text-dark-400 hover:text-brand-500 dark:hover:text-brand-400 transition-colors">Developer Guide</Link></li>
             </ul>
           </div>
 
